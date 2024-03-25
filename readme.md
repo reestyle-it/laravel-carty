@@ -75,15 +75,16 @@ use Illuminate\Support\Collection;
 $id = 'can-be-string-too';
 $description = 'Any description you want';
 $quantity = 1;
-$item = Carty::addItem('item-id', 'Item description', $quantity);
+$price = 1.50;
+$tax = 21; // Full number, as INT
+$item = Carty::addItem($id, $description, $quantity);
 
-echo $item->hash();
+dump($item->hash(), Carty::items())
 ```
 
 #### Retrieving all items
 ```
 $quantity = 1;
-Carty::addItem('item-id', 'Item description', $quantity); 
 
 dump(Carty::items())
 ```
@@ -92,7 +93,7 @@ dump(Carty::items())
 ```
 Carty::items()
     ->each(
-        fn (Item $item) => echo $item->hash();
+        fn (Item $item) => dump($item->hash());
 ```
 
 #### Removing an item
@@ -100,9 +101,24 @@ Carty::items()
 Carty::removeItem($hash);
 ```
 
+## More advanced usage
+
+### Using multiple carts in one session
+
+```
+Carty::cartId('other-cart');
+Carty::addItem(...);
+
+Carty::cartId('yet-other-cart');
+Carty::addItem(...);
+
+// The same method without parameters returns cart ID string
+dump(Carty::cartId()); // Should show 'yet-other-cart' now
+```
+
 ### Adding and removing using models
 
-#### Update config/carty.php
+#### Update config file config/carty.php
 
 You can configure more than one model to 
 ```
@@ -121,6 +137,8 @@ You can configure more than one model to
     ],
 ],
 ```
+
+A reference to the model, but not the object itself, is kept inside the `Item` object.
 
 #### Adding an item
 

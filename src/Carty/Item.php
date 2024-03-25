@@ -21,6 +21,8 @@ class Item
         'id'          => null,
         'description' => null,
         'qty'         => null,
+        'price'       => null,
+        'tax'         => null,
     ];
 
     protected ?Options $options = null;
@@ -50,6 +52,7 @@ class Item
         return sha1(
             serialize(
                 collect($this->itemData)
+                    ->put('unique', uniqid('cart_item_')) // More entropy to make it even more unique
                     ->when(
                         $this->options,
                         fn(Collection $collection) => $collection->merge([
@@ -87,12 +90,14 @@ class Item
         return $this;
     }
 
-    public function addFromData(int|string $id, string $description, int $qty, ?array $options = null): self
+    public function addFromData(int|string $id, string $description, int $qty, float $price, int $tax = 0, ?array $options = null): self
     {
         $this->itemData = [
             'id'          => null,
             'description' => null,
             'qty'         => null,
+            'price'       => $price,
+            'tax'         => 1 + ($tax / 100),
         ];
 
         if ($options) {
@@ -119,9 +124,23 @@ class Item
         return $this;
     }
 
-    public function getModelData(): array
+    public function modelData(): array
     {
         return $this->modelData;
+    }
+
+    public function model(): ?Model
+    {
+        $modelClass = $this->modelData['class'];
+
+        return $modelClass::find($this->modelData['id']);
+    }
+
+    public function remove(): Carty
+    {
+        $this->carty->removeItem($this->hash());
+
+        return $this->carty;
     }
 
 }

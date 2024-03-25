@@ -28,16 +28,17 @@ class Carty implements CartyContract
         $this->config = $config;
     }
     
-    public function setCartId(string $cartId): self
+    public function cartId(?string $cartId = null): self|string
     {
-        $this->cartId = $cartId;
-        
-        return $this;
-    }
+        if ($cartId) {
+            $this->cartId = $cartId;
 
-    public function cartId(): string
-    {
-        return $this->cartId;
+            $return = $this;
+        } else {
+            $return = $cartId;
+        }
+        
+        return $return;
     }
     
     public function loadItems(): self

@@ -10,28 +10,28 @@ use ReeStyleIT\Carty\Exceptions\CartyItemException;
 
 class Options
 {
-    
-    protected array $options = [];
-    
+
+    protected Collection $options;
+
     public function __construct(array $options = [])
     {
-        $this->options = $options;
+        $this->options = collect($options);
     }
-    
+
     public function all(): Collection
     {
-        return collect($this->options);
+        return $this->options;
     }
-    
+
     public function get($option): Collection
     {
-        return collect($this->options)->get($option);
+        return $this->options->get($option);
     }
-    
+
     public function set(string $option, mixed $value): self
     {
-        $this->options[$option] = $value;
-        
+        $this->options->put($option, $value);
+
         return $this;
     }
 
