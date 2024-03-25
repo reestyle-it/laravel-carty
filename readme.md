@@ -2,6 +2,12 @@
 
 A cart package for Laravel
 
+---
+
+**IMPORTANT NOTE** This package is still in development, so expect (major) changes along the way
+
+---
+
 ## Requirements
 - Min. Laravel 8
 - Min. PHP 7.4 (supporting datatype type hinting)
