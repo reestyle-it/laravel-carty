@@ -1,10 +1,10 @@
 <?php
 
-namespace ReeStyleIT\Carty\Exceptions;
+namespace ReeStyleIT\LaravelCarty\Exceptions;
 
 use Exception;
 
 class CartyItemException extends Exception
 {
-    
+
 }

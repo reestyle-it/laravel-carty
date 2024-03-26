@@ -1,12 +1,12 @@
 <?php
 
-namespace ReeStyleIT\Carty\Carty;
+namespace ReeStyleIT\LaravelCarty\Carty;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
-use ReeStyleIT\Carty\Carty;
-use ReeStyleIT\Carty\Exceptions\CartyItemException;
+use ReeStyleIT\LaravelCarty\Carty;
+use ReeStyleIT\LaravelCarty\Carty\Item\Options;
 
 class Item
 {
@@ -101,7 +101,7 @@ class Item
         ];
 
         if ($options) {
-            $options = new Options($options);
+            $this->options = new Options($options);
         }
 
         $this->hash = $this->createHash();
@@ -141,6 +141,17 @@ class Item
         $this->carty->removeItem($this->hash());
 
         return $this->carty;
+    }
+
+    public function price(bool $withTax, int $decimals = 2)
+    {
+        $price = $this->itemData['price'];
+
+        if ($withTax) {
+            $price *= $this->itemData['tax'];
+        }
+
+        return number_format($price, 2);
     }
 
 }

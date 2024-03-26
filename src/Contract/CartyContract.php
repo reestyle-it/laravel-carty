@@ -1,8 +1,8 @@
 <?php
 
-namespace ReeStyleIT\Carty\Contract;
+namespace ReeStyleIT\LaravelCarty\Contract;
 
 interface CartyContract
 {
-    
+
 }

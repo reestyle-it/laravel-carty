@@ -1,10 +1,10 @@
 <?php
 
-namespace ReeStyleIT\Carty\Facade;
+namespace ReeStyleIT\LaravelCarty\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Foundation\Application;
-use ReeStyleIT\Carty\Contract\CartyContract;
+use ReeStyleIT\LaravelCarty\Contract\CartyContract;
 
 class CartyServiceProvider extends ServiceProvider
 {

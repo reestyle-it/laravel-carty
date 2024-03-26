@@ -1,9 +1,9 @@
 <?php
 
-namespace ReeStyleIT\Carty\Facade;
+namespace ReeStyleIT\LaravelCarty\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use ReeStyleIT\Carty\Contract\CartyContract;
+use ReeStyleIT\LaravelCarty\Contract\CartyContract;
 
 /**
  * @see \ReeStyleIT\Carty\Carty
