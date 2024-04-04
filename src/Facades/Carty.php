@@ -11,7 +11,7 @@ use ReeStyleIT\LaravelCarty\Contract\CartyContract;
 class Carty extends Facade
 {
 
-    public function getFacadeAccessor()
+    public static function getFacadeAccessor(): string
     {
         return CartyContract::class;
     }

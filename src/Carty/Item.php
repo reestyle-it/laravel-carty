@@ -7,8 +7,9 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
 use ReeStyleIT\LaravelCarty\Carty;
 use ReeStyleIT\LaravelCarty\Carty\Item\Options;
+use ReeStyleIT\LaravelCarty\Contract\CartItemContract;
 
-class Item
+class Item implements CartItemContract
 {
 
     use Macroable;
@@ -64,13 +65,6 @@ class Item
         );
     }
 
-    public function update(int $qty): self
-    {
-        $this->itemData['qty'] = $qty;
-
-        return $this;
-    }
-
     public function id(): int|string
     {
         return $this->itemData['id'];
@@ -79,6 +73,24 @@ class Item
     public function quantity(): int
     {
         return $this->itemData['qty'];
+    }
+
+    public function price(bool $withTax, int $decimals = 2): string
+    {
+        $price = $this->itemData['price'];
+
+        if ($withTax) {
+            $price *= $this->itemData['tax'];
+        }
+
+        return number_format($price, $decimals);
+    }
+
+    public function update(int $qty): self
+    {
+        $this->itemData['qty'] = $qty;
+
+        return $this;
     }
 
     public function increase(int $qty): self
@@ -146,17 +158,6 @@ class Item
         $this->carty->removeItem($this->hash());
 
         return $this->carty;
-    }
-
-    public function price(bool $withTax, int $decimals = 2)
-    {
-        $price = $this->itemData['price'];
-
-        if ($withTax) {
-            $price *= $this->itemData['tax'];
-        }
-
-        return number_format($price, $decimals);
     }
 
 }

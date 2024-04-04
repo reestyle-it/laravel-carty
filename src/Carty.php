@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
 use ReeStyleIT\LaravelCarty\Carty\Item;
+use ReeStyleIT\LaravelCarty\Contract\CartItemContract;
 use ReeStyleIT\LaravelCarty\Contract\CartyContract;
 use ReeStyleIT\LaravelCarty\Contract\CartyDriverContract;
 use ReeStyleIT\LaravelCarty\Exceptions\CartyItemException;
@@ -24,6 +25,11 @@ class Carty implements CartyContract
     protected CartyDriverContract $storeDriver;
 
     protected ?string $lastUpdatedItemHash = null;
+
+    public static function get(string $cartId): self
+    {
+        return new self($cartId, config('carty'));
+    }
 
     public function __construct(?string $cartId = null, array $config = [])
     {
@@ -94,13 +100,21 @@ class Carty implements CartyContract
 
     public function addItem(int|string $id, string $description, int $qty, float $price, int $tax): self
     {
-        $item = (new Item($this))->addFromData($id, $description, $qty, $price, $tax);
+        // Item class is configurable
+        $itemClass = $this->config['item']['class'];
 
-        $this->lastUpdatedItemHash = $item->hash();
+        /** @var CartItemContract $item */
+        $item = new $itemClass($this);
 
-        $this->items[$this->lastUpdatedItemHash] = $item;
+        if ($item instanceof CartItemContract) {
+            $item->addFromData($id, $description, $qty, $price, $tax);
 
-        $this->updateStore();
+            $this->lastUpdatedItemHash = $item->hash();
+
+            $this->items[$this->lastUpdatedItemHash] = $item;
+
+            $this->updateStore();
+        }
 
         return $this;
     }

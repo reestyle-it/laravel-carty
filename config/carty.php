@@ -13,6 +13,6 @@ return [
 
     'item' => [
         // Class to use for items
-        'class' => \ReeStyleIT\Carty\Carty\Item::class,
+        'class' => \ReeStyleIT\LaravelCarty\Carty::class,
     ],
 ];
