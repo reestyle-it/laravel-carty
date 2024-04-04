@@ -71,6 +71,11 @@ class Item
         return $this;
     }
 
+    public function id(): int|string
+    {
+        return $this->itemData['id'];
+    }
+
     public function quantity(): int
     {
         return $this->itemData['qty'];
@@ -93,9 +98,9 @@ class Item
     public function addFromData(int|string $id, string $description, int $qty, float $price, int $tax = 0, ?array $options = null): self
     {
         $this->itemData = [
-            'id'          => null,
-            'description' => null,
-            'qty'         => null,
+            'id'          => $id,
+            'description' => $description,
+            'qty'         => $qty,
             'price'       => $price,
             'tax'         => 1 + ($tax / 100),
         ];
@@ -151,7 +156,7 @@ class Item
             $price *= $this->itemData['tax'];
         }
 
-        return number_format($price, 2);
+        return number_format($price, $decimals);
     }
 
 }

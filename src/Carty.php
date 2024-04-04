@@ -23,6 +23,8 @@ class Carty implements CartyContract
 
     protected CartyDriverContract $storeDriver;
 
+    protected ?string $lastUpdatedItemHash = null;
+
     public function __construct(?string $cartId = null, array $config = [])
     {
         $this->cartId = $cartId ?? $config['defaults']['cartId'];
@@ -80,11 +82,23 @@ class Carty implements CartyContract
         return $this->config;
     }
 
+    public function getLastUpdatedItemHash(): ?string
+    {
+        return $this->lastUpdatedItemHash;
+    }
+
+    public function getLastUpdatedItem(): Item|bool
+    {
+        return $this->items[$this->lastUpdatedItemHash] ?? false;
+    }
+
     public function addItem(int|string $id, string $description, int $qty, float $price, int $tax): self
     {
         $item = (new Item($this))->addFromData($id, $description, $qty, $price, $tax);
 
-        $this->items[$item->hash()] = $item;
+        $this->lastUpdatedItemHash = $item->hash();
+
+        $this->items[$this->lastUpdatedItemHash] = $item;
 
         $this->updateStore();
 
@@ -142,16 +156,18 @@ class Carty implements CartyContract
         /** @var Item $item */
         $item = $this->items()
             ->filter(
-                fn (array $item) => $item['id'] === $id
+                fn (Item $item) => $item->id() === $id
             )
             ->first();
 
-        return $this->updateItem($item->hash());
+        return $this->updateItem($item->hash(), $qty);
     }
 
     public function removeItem(string $hash): self
     {
         $this->items = $this->items()->forget($hash)->toArray();
+
+        return $this;
     }
 
     public function removeItemById(int|string $id): self
