@@ -50,10 +50,10 @@ class Item implements CartItemContract
 
     public function createHash(): string
     {
-        return sha1(
+        $uniqueStart = dechex(time());
+        $infoHashed = sha1(
             serialize(
                 collect($this->itemData)
-                    ->put('unique', uniqid('cart_item_')) // More entropy to make it even more unique
                     ->when(
                         $this->options,
                         fn(Collection $collection) => $collection->merge([
@@ -63,6 +63,8 @@ class Item implements CartItemContract
                     )->toArray()
             )
         );
+
+        return collect([$uniqueStart, uniqid(), $infoHashed])->join('-');
     }
 
     public function id(): int|string

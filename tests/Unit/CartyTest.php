@@ -186,6 +186,8 @@ class CartyTest extends TestBase
 
         $this->assertCount(1, $cart->items());
 
+        $cart->addItem(103, 'Another test description', 2, 100, 21);
+
         $this->assertCount(2, $cart->items());
     }
 

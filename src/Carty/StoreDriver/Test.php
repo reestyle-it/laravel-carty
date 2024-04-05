@@ -19,8 +19,8 @@ class Test extends StoreBase implements CartyDriverContract
             ->each(
                 function (array $cartContent, string $cartId) {
                     $cart = new Carty($cartId, [
-                        'session' => [
-                            'store' => get_class($this)
+                        'storage' => [
+                            'driver' => get_class($this)
                         ]
                     ]);
 

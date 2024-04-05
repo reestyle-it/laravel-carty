@@ -93,28 +93,35 @@ class Carty implements CartyContract
         return $this->lastUpdatedItemHash;
     }
 
-    public function getLastUpdatedItem(): Item|bool
+    public function getLastUpdatedItem(): CartItemContract|bool
     {
         return $this->items[$this->lastUpdatedItemHash] ?? false;
     }
 
-    public function addItem(int|string $id, string $description, int $qty, float $price, int $tax): self
+    public function getNewItemObject(): CartItemContract
     {
         // Item class is configurable
         $itemClass = $this->config['item']['class'];
 
-        /** @var CartItemContract $item */
-        $item = new $itemClass($this);
-
-        if ($item instanceof CartItemContract) {
-            $item->addFromData($id, $description, $qty, $price, $tax);
-
-            $this->lastUpdatedItemHash = $item->hash();
-
-            $this->items[$this->lastUpdatedItemHash] = $item;
-
-            $this->updateStore();
+        // Fallback, e.g. for tests
+        if (! $itemClass) {
+            $itemClass = Item::class;
         }
+
+        return new $itemClass($this);
+    }
+
+    public function addItem(int|string $id, string $description, int $qty, float $price, int $tax): self
+    {
+        $item = $this->getNewItemObject();
+
+        $item->addFromData($id, $description, $qty, $price, $tax);
+
+        $this->lastUpdatedItemHash = $item->hash();
+
+        $this->items[$this->lastUpdatedItemHash] = $item;
+
+        $this->updateStore();
 
         return $this;
     }
@@ -127,7 +134,7 @@ class Carty implements CartyContract
             if (isset($config['model-mapping'][get_class($model)])) {
                 $mapping = $config['model-mapping'][get_class($model)];
 
-                $newItem = new Item();
+                $newItem = $this->getNewItemObject();
 
                 collect($mapping)->each(
                     fn ($destination, $source) => $newItem->{$destination} = $model->{$source}
@@ -155,7 +162,7 @@ class Carty implements CartyContract
 
     public function updateItem(string $hash, int $qty): self
     {
-        /** @var Item $item */
+        /** @var CartItemContract $item */
         $item = $this->items()->get($hash);
 
         $item->update($qty);
@@ -170,7 +177,7 @@ class Carty implements CartyContract
         /** @var Item $item */
         $item = $this->items()
             ->filter(
-                fn (Item $item) => $item->id() === $id
+                fn (CartItemContract $item) => $item->id() === $id
             )
             ->first();
 
@@ -186,10 +193,10 @@ class Carty implements CartyContract
 
     public function removeItemById(int|string $id): self
     {
-        /** @var Item $item */
+        /** @var CartItemContract $item */
         $item = $this->items()
             ->filter(
-                fn (array $item) => $item['id'] === $id
+                fn (CartItemContract $item) => $item->id() === $id
             )
             ->first();
 
@@ -198,10 +205,10 @@ class Carty implements CartyContract
 
     public function removeItemByModel(Model $model): self
     {
-        /** @var Item $item */
+        /** @var CartItemContract $item */
         $item = $this->items()
             ->filter(
-                fn (array $item) => $item['id'] === $model->id
+                fn (CartItemContract $item) => $item['id'] === $model->id
             )
             ->first();
 
@@ -209,7 +216,7 @@ class Carty implements CartyContract
     }
 
     /**
-     * @return Collection|Item[]
+     * @return Collection|CartItemContract[]
      */
     public function items(): Collection
     {
