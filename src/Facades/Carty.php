@@ -3,7 +3,7 @@
 namespace ReeStyleIT\LaravelCarty\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use ReeStyleIT\LaravelCarty\Contract\CartyContract;
+use ReeStyleIT\LaravelCarty\Contracts\CartyContract;
 
 /**
  * @see \ReeStyleIT\Carty\Carty

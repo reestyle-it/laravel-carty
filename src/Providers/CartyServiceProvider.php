@@ -4,7 +4,7 @@ namespace ReeStyleIT\LaravelCarty\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Foundation\Application;
-use ReeStyleIT\LaravelCarty\Contract\CartyContract;
+use ReeStyleIT\LaravelCarty\Contracts\CartyContract;
 
 class CartyServiceProvider extends ServiceProvider
 {

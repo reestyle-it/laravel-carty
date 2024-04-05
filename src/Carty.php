@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
 use ReeStyleIT\LaravelCarty\Carty\Item;
-use ReeStyleIT\LaravelCarty\Contract\CartItemContract;
-use ReeStyleIT\LaravelCarty\Contract\CartyContract;
-use ReeStyleIT\LaravelCarty\Contract\CartyDriverContract;
+use ReeStyleIT\LaravelCarty\Contracts\CartItemContract;
+use ReeStyleIT\LaravelCarty\Contracts\CartyContract;
+use ReeStyleIT\LaravelCarty\Contracts\CartyDriverContract;
 use ReeStyleIT\LaravelCarty\Exceptions\CartyItemException;
 
 class Carty implements CartyContract

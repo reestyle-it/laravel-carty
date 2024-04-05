@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
 use ReeStyleIT\LaravelCarty\Carty;
 use ReeStyleIT\LaravelCarty\Carty\Item\Options;
-use ReeStyleIT\LaravelCarty\Contract\CartItemContract;
+use ReeStyleIT\LaravelCarty\Contracts\CartItemContract;
 
 class Item implements CartItemContract
 {

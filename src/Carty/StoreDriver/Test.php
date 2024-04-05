@@ -4,7 +4,7 @@ namespace ReeStyleIT\LaravelCarty\Carty\StoreDriver;
 
 use ReeStyleIT\LaravelCarty\Carty;
 use ReeStyleIT\LaravelCarty\Carty\Item;
-use ReeStyleIT\LaravelCarty\Contract\CartyDriverContract;
+use ReeStyleIT\LaravelCarty\Contracts\CartyDriverContract;
 
 class Test extends StoreBase implements CartyDriverContract
 {

@@ -2,7 +2,7 @@
 
 namespace ReeStyleIT\LaravelCarty\Carty\StoreDriver;
 
-use ReeStyleIT\LaravelCarty\Contract\CartyDriverContract;
+use ReeStyleIT\LaravelCarty\Contracts\CartyDriverContract;
 
 class Session extends StoreBase implements CartyDriverContract
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace ReeStyleIT\LaravelCarty\Contract;
+namespace ReeStyleIT\LaravelCarty\Contracts;
 
 use Illuminate\Database\Eloquent\Model;
 use ReeStyleIT\LaravelCarty\Carty;
