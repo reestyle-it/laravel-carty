@@ -37,7 +37,7 @@ class Carty implements CartyContract
 
         $this->config = $config;
 
-        $sessionStoreClassName = $config['session']['store'];
+        $sessionStoreClassName = $config['storage']['driver'];
 
         $this->storeDriver = new $sessionStoreClassName($this);
     }
