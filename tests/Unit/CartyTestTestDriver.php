@@ -6,7 +6,7 @@ use ReeStyleIT\LaravelCarty\Carty;
 use Tests\Support\Carty\CustomItem;
 use Tests\TestBase;
 
-class CartyTest extends TestBase
+class CartyTestTestDriver extends TestBase
 {
 
     public function testConfig()

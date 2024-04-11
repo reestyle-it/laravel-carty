@@ -1,18 +1,24 @@
 <?php
 
+// Default "namespace" for all configs. You may
+$cartSpace = config('app.name') . '_carty';
+
 return [
 
     'storage' => [
         // Which type of storage will be used. May also be a custom driver, e.g. to support NoSQL DB's or Redis
         'driver' => \ReeStyleIT\LaravelCarty\Carty\StoreDriver\Session::class,
 
-        // Use the following setting for:
-        // - Full file to path for File-driver
-        // - (custom) table-name for Database-driver
-        // -
-        //
-        // Test driver ignore this setting.
-        'name'   => config('app.name') . '_carty',
+        // Test driver ignore any setting.
+
+        // Session namespace
+        'session_key'   => $cartSpace,
+
+        // (custom) table-name for Database-driver
+        'table'   => $cartSpace,
+
+        // Full path to file for File-driver
+        'location' => storage_path($cartSpace),
     ],
 
     'defaults' => [

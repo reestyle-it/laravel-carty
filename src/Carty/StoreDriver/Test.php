@@ -9,36 +9,7 @@ use ReeStyleIT\LaravelCarty\Contracts\CartyDriverContract;
 class Test extends StoreBase implements CartyDriverContract
 {
 
-    private array $carts = [];
-
-    public bool $saved = false;
-
-    public function testFill(array $cartContents): void
-    {
-        collect($cartContents)
-            ->each(
-                function (array $cartContent, string $cartId) {
-                    $cart = new Carty($cartId, [
-                        'storage' => [
-                            'driver' => get_class($this)
-                        ]
-                    ]);
-
-                    collect($cartContent)->each(
-                        function (array $item) use ($cart) {
-                            $this->carts[$cart->cartId()][] = (new Item($cart))
-                                ->addFromData(
-                                    $item['id'],
-                                    $item['description'],
-                                    $item['qty'],
-                                    $item['price'],
-                                    $item['tax'],
-                                );
-                        }
-                    );
-                }
-            );
-    }
+    use TestTrait;
 
     public function loadFromStore(): array
     {

@@ -3,6 +3,7 @@
 namespace ReeStyleIT\LaravelCarty\Carty\StoreDriver;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Nette\Utils\Json;
 use ReeStyleIT\LaravelCarty\Carty;
 use ReeStyleIT\LaravelCarty\Contracts\CartyDriverContract;
@@ -14,12 +15,19 @@ class File extends StoreBase implements CartyDriverContract
     {
         parent::__construct($carty);
 
-//        config([''])
+        // Setup storage to use cart - remember that this is NOT the file itself!
+        \Illuminate\Support\Facades\Storage::build([
+            'driver' => 'cart',
+            'root' => $this->carty->config()['storage']['location'],
+        ]);
     }
 
-    protected function getFilename()
+    protected function getFilename(): string
     {
-        return $this->carty->config()['storage']['name'];
+        // Cart file is JSON, simply named "cart_" and then its ID
+        $cartId = Str::of($this->carty->cartId())->lower()->snake();
+
+        return sprintf('cart_%s.json', $cartId);
     }
 
     public function loadFromStore(): array
