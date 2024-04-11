@@ -3,6 +3,8 @@
 // Default "namespace" for all configs. You may
 $cartSpace = config('app.name') . '_carty';
 
+$cartId = 'cart_contents';
+
 return [
 
     'storage' => [
@@ -14,7 +16,7 @@ return [
         // Session namespace
         'session_key'   => $cartSpace,
 
-        // (custom) table-name for Database-driver
+        // Table-name for Database-driver. Cart field is config('carty.defaults.cartId')
         'table'   => $cartSpace,
 
         // Full path to file for File-driver
@@ -23,7 +25,7 @@ return [
 
     'defaults' => [
         // Default cart ID if no cart ID is supplied
-        'cartId' => 'default-cart',
+        'cartId' => $cartId,
     ],
 
     'item' => [
