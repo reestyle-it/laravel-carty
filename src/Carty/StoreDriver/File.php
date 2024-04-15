@@ -45,4 +45,8 @@ class File extends StoreBase implements CartyDriverContract
         );
     }
 
+    public function clear(): void
+    {
+        Storage::disk('cart')->delete($this->getFilename());
+    }
 }

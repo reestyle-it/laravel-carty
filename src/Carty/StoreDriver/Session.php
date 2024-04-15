@@ -7,15 +7,32 @@ use ReeStyleIT\LaravelCarty\Contracts\CartyDriverContract;
 class Session extends StoreBase implements CartyDriverContract
 {
 
+    private function getCarts(): array
+    {
+        $sessionKey = $this->carty->config()['storage']['session_key'];
+
+        return session($sessionKey, []);
+    }
+
     public function loadFromStore(): array
     {
-        // TODO: Implement loadFromStore() method.
-        return [];
+        $carts = $this->getCarts();
+
+        return $carts[$this->carty->cartId()] ?? [];
     }
 
     public function updateStore(array $items): void
     {
-        // TODO: Implement updateStore() method.
+        $carts = $this->getCarts();
+
+        $carts[$this->carty->cartId()] = $items;
+
+        session()->put($this->carty->config()['storage']['session_key'], $carts);
+    }
+
+    public function clear(): void
+    {
+        session()->forget($this->carty->config()['storage']['session_key']);
     }
 
 }

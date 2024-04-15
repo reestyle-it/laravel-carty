@@ -9,10 +9,12 @@ use Tests\TestBase;
 class CartyTestTestDriver extends TestBase
 {
 
+    private string $driver = Carty\StoreDriver\Test::class;
+
     public function testConfig()
     {
         $config = [
-            'storage' => ['driver' => Carty\StoreDriver\Test::class]
+            'storage' => ['driver' => $this->driver]
         ];
 
         $cart = new Carty(uniqid(), $config);
@@ -23,7 +25,7 @@ class CartyTestTestDriver extends TestBase
     public function testCartId()
     {
         $cart = new Carty($firstCartId = uniqid('first_'), [
-            'storage' => ['driver' => Carty\StoreDriver\Test::class]
+            'storage' => ['driver' => $this->driver]
         ]);
 
         $this->assertEquals($firstCartId, $cart->cartId());
@@ -37,7 +39,7 @@ class CartyTestTestDriver extends TestBase
         $this->assertNotEquals($firstCartId, $cart->cartId());
 
         $secondCart = new Carty($secondCartId = uniqid('second_'), [
-            'storage' => ['driver' => Carty\StoreDriver\Test::class]
+            'storage' => ['driver' => $this->driver]
         ]);
 
         $this->assertEquals($secondCartId, $secondCart->cartId());
@@ -48,7 +50,7 @@ class CartyTestTestDriver extends TestBase
     public function testItems()
     {
         $cart = new Carty($cartId = uniqid(), [
-            'storage' => ['driver' => Carty\StoreDriver\Test::class]
+            'storage' => ['driver' => $this->driver]
         ]);
 
         /** @var Carty\StoreDriver\Test $storeDriver */
@@ -82,7 +84,7 @@ class CartyTestTestDriver extends TestBase
     public function testCustomItem()
     {
         $cart = new Carty(uniqid(), [
-            'storage' => ['driver' => Carty\StoreDriver\Test::class],
+            'storage' => ['driver' => $this->driver],
             'item'    => ['class' => CustomItem::class]
         ]);
 
@@ -100,7 +102,7 @@ class CartyTestTestDriver extends TestBase
     public function testAddItem()
     {
         $cart = new Carty(uniqid(), [
-            'storage' => ['driver' => Carty\StoreDriver\Test::class]
+            'storage' => ['driver' => $this->driver]
         ]);
 
         $cart->addItem(102, 'Test description', 2, 100, 21);
@@ -116,7 +118,7 @@ class CartyTestTestDriver extends TestBase
     public function testLoadFromStore()
     {
         $cart = new Carty($cartId = uniqid(), [
-            'storage' => ['driver' => Carty\StoreDriver\Test::class]
+            'storage' => ['driver' => $this->driver]
         ]);
 
         /** @var Carty\StoreDriver\Test $storeDriver */
@@ -145,7 +147,7 @@ class CartyTestTestDriver extends TestBase
     public function testUpdateItemById()
     {
         $cart = new Carty(uniqid(), [
-            'storage' => ['driver' => Carty\StoreDriver\Test::class]
+            'storage' => ['driver' => $this->driver]
         ]);
 
         $cart->updateStore();
@@ -175,7 +177,7 @@ class CartyTestTestDriver extends TestBase
     public function testUpdateItem()
     {
         $cart = new Carty(uniqid(), [
-            'storage' => ['driver' => Carty\StoreDriver\Test::class]
+            'storage' => ['driver' => $this->driver]
         ]);
 
         $cart->updateStore();
@@ -194,7 +196,7 @@ class CartyTestTestDriver extends TestBase
     public function testUpdateStore()
     {
         $cart = new Carty(uniqid(), [
-            'storage' => ['driver' => Carty\StoreDriver\Test::class]
+            'storage' => ['driver' => $this->driver]
         ]);
 
         $cart->updateStore();
@@ -212,7 +214,7 @@ class CartyTestTestDriver extends TestBase
     public function testRemoveItemByHash()
     {
         $cart = new Carty(uniqid(), [
-            'storage' => ['driver' => Carty\StoreDriver\Test::class]
+            'storage' => ['driver' => $this->driver]
         ]);
 
         $cart->updateStore();
@@ -231,7 +233,7 @@ class CartyTestTestDriver extends TestBase
     public function testRemoveItemByItem()
     {
         $cart = new Carty(uniqid(), [
-            'storage' => ['driver' => Carty\StoreDriver\Test::class]
+            'storage' => ['driver' => $this->driver]
         ]);
 
         $cart->updateStore();
@@ -258,7 +260,7 @@ class CartyTestTestDriver extends TestBase
     public function testRemoveItemById()
     {
         $cart = new Carty(uniqid(), [
-            'storage' => ['driver' => Carty\StoreDriver\Test::class]
+            'storage' => ['driver' => $this->driver]
         ]);
 
         $cart->updateStore();

@@ -18,4 +18,8 @@ class Database extends StoreBase implements CartyDriverContract
         // TODO: Implement updateStore() method.
     }
 
+    public function clear(): void
+    {
+        // TODO: Implement clear() method.
+    }
 }

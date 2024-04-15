@@ -9,4 +9,6 @@ interface CartyDriverContract
 
     public function updateStore(array $items): void;
 
+    public function clear(): void;
+
 }
